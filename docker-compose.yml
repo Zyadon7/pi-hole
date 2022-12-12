@@ -1,1 +1,28 @@
-sdf
+version: "3"
+# https://discourse.pi-hole.net/t/solved-dns-resolution-is-currently-unavailable/33725/6
+# Change nameserver to 127.0.0.1 in resolv.conf
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "${53TCP}:53/tcp"
+      - "${53UDP}:53/udp"
+      #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "${80TCP}:80/tcp"
+    environment:
+      TZ: '${TZ}'
+      WEBPASSWORD: '${WEBPASSWORD}'
+      DNSMASQ_LISTENING: '${DNSMASQ_LISTENING}'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '${VOLUME_PIHOLE}:/etc/pihole'
+      - '${VOLUME_DNSMASQ}:/etc/dnsmasq.d'
+      - '${VOLUME_RESOLV}:/etc/resolv.conf'    
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Recommended but not required (DHCP needs NET_ADMIN)      
+    restart: unless-stopped
