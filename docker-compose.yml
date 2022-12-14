@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 # https://discourse.pi-hole.net/t/solved-dns-resolution-is-currently-unavailable/33725/6
 # Change nameserver to 127.0.0.1 in resolv.conf
 
