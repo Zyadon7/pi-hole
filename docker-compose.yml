@@ -9,7 +9,7 @@ services:
     image: pihole/pihole:latest
     # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
     ports:
-      - "${53TCP}:53/tcp"
+      - "$${53TCP}:53/tcp"
       - "${53UDP}:53/udp"
       #- "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
       - "${80TCP}:80/tcp"
